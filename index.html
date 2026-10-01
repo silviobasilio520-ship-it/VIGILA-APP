@@ -4,41 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VIGILA</title>
-<style>body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px;text-align:center}h1{color:red;font-size:35px;border:2px solid red;border-radius:15px;padding:15px;margin-bottom:10px}input{width:100%;padding:15px;font-size:18px;border-radius:8px;margin:10px 0;background:#000;color:#fff;border:1px solid #444}button{width:100%;padding:16px;color:#fff;border:none;border-radius:10px;font-weight:bold;margin:5px 0;font-size:13px;min-height:75px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.c1{background:#c70000}.c2{background:#ff6a00}.c3{background:#0066ff}.c4{background:#6a00ff}.c5{background:#009688}.c6{background:#ff9800}</style>
+<style>body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px;text-align:center}h1{color:red;font-size:35px;border:2px solid red;border-radius:15px;padding:15px}input{width:100%;padding:15px;font-size:18px;border-radius:8px;margin:10px 0}button{width:100%;padding:16px;color:#fff;border:none;border-radius:10px;font-weight:bold;margin:5px 0;font-size:13px;min-height:70px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.c1{background:#c70000}.c2{background:#ff6a00}.c3{background:#0066ff}.c4{background:#6a00ff}.c5{background:#009688}.c6{background:#ff9800}</style>
 </head>
 <body>
-<h1>🛡️ VIGILA</h1>
-<p>Seu contato para receber o SMS:</p>
-<input id="tel" value="12988361033" placeholder="DDD + número">
+<h1>VIGILA</h1>
+<input id="tel" value="12988361033">
 <div class="grid">
-<button class="c1" onclick="enviar('ABUSO MULHER')">1️⃣<br>ABUSO MULHER</button>
-<button class="c2" onclick="enviar('ABUSO CRIANCA')">2️⃣<br>ABUSO CRIANÇA</button>
-<button class="c3" onclick="enviar('EMERGENCIA FAMILIAR')">3️⃣<br>EMERG FAMILIAR</button>
-<button class="c4" onclick="enviar('VANDALISMO')">4️⃣<br>VANDALISMO</button>
-<button class="c5" onclick="enviar('DEPREDACAO')">5️⃣<br>DEPREDACAO</button>
-<button class="c6" onclick="enviar('PERTURBACAO')">6️⃣<br>PERTURBAÇÃO</button>
+<button class="c1" onclick="enviar('ABUSO MULHER')">1 ABUSO MULHER</button>
+<button class="c2" onclick="enviar('ABUSO CRIANCA')">2 ABUSO CRIANCA</button>
+<button class="c3" onclick="enviar('EMERGENCIA FAMILIAR')">3 EMERG FAMILIAR</button>
+<button class="c4" onclick="enviar('VANDALISMO')">4 VANDALISMO</button>
+<button class="c5" onclick="enviar('DEPREDACAO')">5 DEPREDACAO</button>
+<button class="c6" onclick="enviar('PERTURBACAO')">6 PERTURBACAO</button>
 </div>
-<div id="s" style="margin-top:15px;color:#0f0;font-weight:bold"></div>
+<div id="s" style="margin-top:15px;color:#0f0"></div>
 <script>
 const FRASES = {
-'ABUSO MULHER': 'SOCORRO! PEÇO AJUDA URGENTE! Mulher sofrendo abuso/agressão neste local! Por favor venha rápido ou acione a polícia! Estou com medo!',
-'ABUSO CRIANCA': 'SOCORRO! PEÇO AJUDA URGENTE! Criança sofrendo maus-tratos/abuso neste local! Precisa de ajuda imediata! Venha rápido!',
-'EMERGENCIA FAMILIAR': 'SOCORRO! EMERGÊNCIA FAMILIAR! Preciso de ajuda urgente para minha família neste local! Venha o mais rápido possível!',
-'VANDALISMO': 'ATENÇÃO! Vandalismo em andamento neste local! Pessoas quebrando/danificando patrimônio! Precisa de apoio!',
-'DEPREDACAO': 'ATENÇÃO! Depredação do patrimônio público neste local! Estão destruindo! Precisamos de ajuda para impedir!',
-'PERTURBACAO': 'ATENÇÃO! Perturbação do sossego muito forte neste local! Barulho excessivo/briga! Precisamos de ajuda para resolver!'
+'ABUSO MULHER': 'SOCORRO Mulher sofrendo agressao! Ajuda urgente! Venha rapido!',
+'ABUSO CRIANCA': 'SOCORRO Crianca sofrendo maus-tratos! Ajuda imediata!',
+'EMERGENCIA FAMILIAR': 'SOCORRO Emergencia familiar! Ajuda urgente para familia!',
+'VANDALISMO': 'ATENCAO Vandalismo em andamento! Precisa apoio!',
+'DEPREDACAO': 'ATENCAO Depredacao patrimonio! Estao destruindo!',
+'PERTURBACAO': 'ATENCAO Perturbacao sossego! Barulho/briga forte!'
 };
 function enviar(tipo){
  let n=tel.value.replace(/\D/g,'');
- if(n.length<10){alert('Digite número com DDD');return;}
- s.innerText='📡 Pegando localização GPS...';
+ s.innerText='Pegando GPS...';
  navigator.geolocation.getCurrentPosition(p=>{
   let loc=`https://maps.google.com/?q=${p.coords.latitude},${p.coords.longitude}`;
-  let frase=FRASES[tipo];
-  let txt=`🚨 VIGILA - ${tipo} 🚨\n\n${frase}\n\n📍 LOCALIZAÇÃO: ${loc}\n🕐 HORA: ${new Date().toLocaleString()}\n\nEnviado pelo app VIGILA - funciona sem internet`;
+  let txt=`VIGILA ${tipo} - ${FRASES[tipo]} Local: ${loc} Hora: ${new Date().toLocaleString()}`;
   window.location.href=`sms:${n}?body=${encodeURIComponent(txt)}`;
-  s.innerText='✅ SMS pronto! Clique em ENVIAR no seu SMS';
- },()=>{alert('Ative o GPS do celular'); s.innerText='❌ Ative GPS e tente de novo';},{enableHighAccuracy:true,timeout:10000});
+  s.innerText='SMS pronto! Clique ENVIAR';
+ },()=>{alert('Ative GPS');},{enableHighAccuracy:true});
 }
 </script>
 </body>
