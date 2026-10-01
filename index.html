@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VIGILA</title>
-<style>body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px;text-align:center}h1{color:red;font-size:35px;border:2px solid red;border-radius:15px;padding:15px}input{width:100%;padding:15px;font-size:18px;border-radius:8px;margin:10px 0}button{width:100%;padding:16px;color:#fff;border:none;border-radius:10px;font-weight:bold;margin:5px 0;font-size:13px;min-height:70px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.c1{background:#c70000}.c2{background:#ff6a00}.c3{background:#0066ff}.c4{background:#6a00ff}.c5{background:#009688}.c6{background:#ff9800}</style>
+<style>body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px;text-align:center}h1{color:red;font-size:35px;border:2px solid red;border-radius:15px;padding:15px}input{width:95%;padding:15px;font-size:18px;border-radius:8px;margin:10px 0}button{width:100%;padding:16px;color:#fff;border:none;border-radius:10px;font-weight:bold;margin:5px 0;font-size:13px;min-height:70px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.c1{background:#c70000}.c2{background:#ff6a00}.c3{background:#0066ff}.c4{background:#6a00ff}.c5{background:#009688}.c6{background:#ff9800}.limpar{background:#333;font-size:12px;min-height:40px}</style>
 </head>
 <body>
 <h1>VIGILA</h1>
-<input id="tel" value="12988361033">
-<div class="grid">
+<p>Digite o número que vai receber:</p>
+<input id="tel" type="tel" placeholder="Ex: 12988361033 - DDD + número" inputmode="numeric">
+<button class="limpar" onclick="document.getElementById('tel').value=''; document.getElementById('tel').focus();">🗑️ APAGAR NÚMERO / TROCAR NÚMERO</button>
+
+<div class="grid" style="margin-top:15px">
 <button class="c1" onclick="enviar('ABUSO MULHER')">1 ABUSO MULHER</button>
 <button class="c2" onclick="enviar('ABUSO CRIANCA')">2 ABUSO CRIANCA</button>
 <button class="c3" onclick="enviar('EMERGENCIA FAMILIAR')">3 EMERG FAMILIAR</button>
@@ -19,23 +22,25 @@
 </div>
 <div id="s" style="margin-top:15px;color:#0f0"></div>
 <script>
-const FRASES = {
+function enviar(tipo){
+ let campo=document.getElementById('tel');
+ let n=campo.value.replace(/\D/g,'');
+ if(n.length<10){alert('Digite o número com DDD primeiro! Ex: 12988361033');campo.focus();return;}
+ let frases={
 'ABUSO MULHER': 'SOCORRO Mulher sofrendo agressao! Ajuda urgente! Venha rapido!',
 'ABUSO CRIANCA': 'SOCORRO Crianca sofrendo maus-tratos! Ajuda imediata!',
-'EMERGENCIA FAMILIAR': 'SOCORRO Emergencia familiar! Ajuda urgente para familia!',
+'EMERGENCIA FAMILIAR': 'SOCORRO Emergencia familiar! Ajuda urgente!',
 'VANDALISMO': 'ATENCAO Vandalismo em andamento! Precisa apoio!',
-'DEPREDACAO': 'ATENCAO Depredacao patrimonio! Estao destruindo!',
-'PERTURBACAO': 'ATENCAO Perturbacao sossego! Barulho/briga forte!'
-};
-function enviar(tipo){
- let n=tel.value.replace(/\D/g,'');
- s.innerText='Pegando GPS...';
+'DEPREDACAO': 'ATENCAO Depredacao patrimonio!',
+'PERTURBACAO': 'ATENCAO Perturbacao sossego!'
+ };
+ document.getElementById('s').innerText='Pegando GPS...';
  navigator.geolocation.getCurrentPosition(p=>{
   let loc=`https://maps.google.com/?q=${p.coords.latitude},${p.coords.longitude}`;
-  let txt=`VIGILA ${tipo} - ${FRASES[tipo]} Local: ${loc} Hora: ${new Date().toLocaleString()}`;
+  let txt=`VIGILA ${tipo} - ${frases[tipo]} Local: ${loc} Hora: ${new Date().toLocaleString()}`;
   window.location.href=`sms:${n}?body=${encodeURIComponent(txt)}`;
-  s.innerText='SMS pronto! Clique ENVIAR';
- },()=>{alert('Ative GPS');},{enableHighAccuracy:true});
+  document.getElementById('s').innerText='SMS pronto!';
+ },()=>{alert('Ative o GPS');});
 }
 </script>
 </body>
