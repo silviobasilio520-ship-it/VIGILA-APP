@@ -3,19 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIGILA</title>
+<title>VIGILA APP</title>
 <style>
-body{margin:0;background:#0a0a0a;color:white;font-family:Arial;display:flex;align-items:center;justify-content:center;min-height:100vh}
-.box{background:#1a1a1a;border:3px solid #ff0000;padding:40px;border-radius:20px;text-align:center}
-h1{color:#ff0000;font-size:60px;margin:0}
-button{background:#ff0000;color:white;padding:20px 50px;border:none;border-radius:12px;font-size:22px;font-weight:bold;cursor:pointer;margin-top:20px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#0a0a0a;color:white;padding:15px}
+.header{text-align:center;padding:20px;border:2px solid #ff0000;border-radius:15px;background:#1a1a1a;margin-bottom:15px}
+.header h1{color:#ff0000;font-size:42px}
+.config{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:15px;margin-bottom:15px}
+.config input{width:100%;padding:12px;border-radius:8px;border:1px solid #444;background:#000;color:white;margin-bottom:10px}
+.config button{width:100%;padding:12px;background:#ff0000;color:white;border:none;border-radius:8px;font-weight:bold}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{padding:20px 10px;border:none;border-radius:12px;color:white;font-weight:bold;font-size:13px;min-height:100px}
+.b1{background:#c70000} .b2{background:#ff6a00} .b3{background:#0066ff}
+.b4{background:#6a00ff} .b5{background:#009688} .b6{background:#ff9800}
 </style>
 </head>
 <body>
-<div class="box">
-<h1>VIGILA</h1>
-<p>Sistema Ativo - Vermelho</p>
-<button onclick="alert('VIGILA ATIVADO!')">ATIVAR SISTEMA</button>
+<div class="header"><h1>VIGILA</h1><p>🛡️ SEU BOTÃO DE SEGURANÇA 24H - 1 clique avisa sua família</p></div>
+<div class="config">
+<h3 style="color:#ff0000">⚙️ PASSO 1 - SEUS 3 CONTATOS</h3>
+<input id="c1" placeholder="Contato 1 - Ex: 11999999999">
+<input id="c2" placeholder="Contato 2">
+<input id="c3" placeholder="Contato 3 - Ex: 190">
+<button onclick="salvar()">💾 SALVAR CONTATOS</button>
+<div id="status" style="display:none;margin-top:10px;padding:10px;background:#000;border:1px solid #0f0;color:#0f0;border-radius:8px;text-align:center"></div>
 </div>
+<div class="grid">
+<button class="btn b1" onclick="emergencia('ABUSO CONTRA MULHER')">1️⃣ ABUSO DE MULHERES</button>
+<button class="btn b2" onclick="emergencia('ABUSO DE CRIANÇAS')">2️⃣ ABUSO DE CRIANÇAS</button>
+<button class="btn b3" onclick="emergencia('EMERGÊNCIA FAMILIAR')">3️⃣ EMERGÊNCIA FAMILIAR</button>
+<button class="btn b4" onclick="emergencia('VANDALISMO')">4️⃣ CONTRA VANDALISMO</button>
+<button class="btn b5" onclick="emergencia('DEPREDACAO')">5️⃣ CONTRA DEPREDACAO</button>
+<button class="btn b6" onclick="emergencia('PERTURBACAO')">6️⃣ CONTRA PERTURBACAO</button>
+</div>
+<p style="text-align:center;margin-top:15px;font-size:12px;color:#aaa">EMERGÊNCIA GRAVE LIGUE 190 - Polícia | 180 - Mulher<br>VigilaApp - Protegendo sua família</p>
+<script>
+function carregar(){c1.value=localStorage.getItem('v1')||'';c2.value=localStorage.getItem('v2')||'';c3.value=localStorage.getItem('v3')||'';}
+function salvar(){localStorage.setItem('v1',c1.value);localStorage.setItem('v2',c2.value);localStorage.setItem('v3',c3.value);status.style.display='block';status.innerText='✅ SALVO! Agora use os botões'; setTimeout(()=>status.style.display='none',3000);}
+function emergencia(tipo){if(!c1.value){alert('Configure contatos primeiro!');return;}status.style.display='block';status.innerText='📡 Pegando GPS...';navigator.geolocation.getCurrentPosition(p=>{const link=`https://maps.google.com/?q=${p.coords.latitude},${p.coords.longitude}`;enviar(tipo,link)},()=>enviar(tipo,'GPS desligado'),{enableHighAccuracy:true});}
+function enviar(tipo,local){const msg=`🛡️ VIGILA - ${tipo}%0ALocal: ${local}%0AHora: ${new Date().toLocaleString()}%0AMe ajude!`;const num=c1.value.replace(/\D/g,'');window.open(`https://wa.me/55${num}?text=${msg}`,'_blank');status.innerText='🚨 ENVIADO! '+tipo;}
+carregar();
+</script>
 </body>
 </html>
